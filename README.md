@@ -42,3 +42,9 @@ The code is structured as a [Maven](https://maven.apache.org/) project.  I use
 
 The data used is [The MNIST database of handwritten digits](http://yann.lecun.com/exdb/mnist/)
 and anyone wishing to try out the code should download the data from the page in this link.
+
+## To Run the Tests
+
+The main test class is `net.pwall.neural.test.TestNNDL` in `src/test/java`.  See the
+comments in that class for information on how to modify the file locations or the network
+parameters.

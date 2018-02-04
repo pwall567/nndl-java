@@ -41,12 +41,14 @@ import net.pwall.neural.test.images.MNISTLabelData;
  *     -Djava.util.logging.config.file=./target/test-classes/logging.properties
  * </pre>
  * <p>to the {@code java} command that runs the class (assumes that the current directory is the
- * root directory of the project).  Or switch to any other logging libraryy supported by Apache
+ * root directory of the project).  Or switch to any other logging library supported by Apache
  * Commons Logging.</p>
  *
  * @author  Peter Wall
  */
 public class TestNNDL {
+
+    // modify the following filenames if necessary:
 
     public static final String imageDataFilename =
             "../../Downloads/MNIST/train-images.idx3-ubyte";
