@@ -31,7 +31,7 @@ import net.pwall.neural.test.images.MNISTImageData;
 import net.pwall.neural.test.images.MNISTLabelData;
 
 /**
- * Input data class for neural network experimentation.
+ * Training data source class for the MNIST image data set.
  *
  * @author  Peter Wall
  */
@@ -41,31 +41,59 @@ public class InputDataSource implements TrainingDataSource {
     private MNISTLabelData labelData;
     private int pixels;
 
+    /**
+     * Create an {@code InputDataSource} with the supplied image and label data objects.
+     *
+     * @param   imageData   the image data input object
+     * @param   labelData   the label data input object
+     */
     public InputDataSource(MNISTImageData imageData, MNISTLabelData labelData) {
         this.imageData = imageData;
         this.labelData = labelData;
         pixels = imageData.getNumRows() * imageData.getNumRows();
     }
 
-
+    /**
+     * Get a training data item (inputs and expected outputs)
+     *
+     * @return  the training data item
+     */
     @Override
     public TrainingData getItem(int index) {
         return new InputData(index);
     }
 
+    /**
+     * Get the size of the training data set (number of items).
+     *
+     * @return  the training data set size
+     */
     @Override
     public int getSize() {
         return imageData.getNumImages();
     }
 
+    /**
+     * Inner class to represent the training data for the MNIST image data set.
+     */
     public class InputData implements TrainingData {
 
         private int image;
 
+        /**
+         * Create an {@code InputData} object for the specified index.
+         *
+         * @param image the image index
+         */
         public InputData(int image) {
             this.image = image;
         }
 
+        /**
+         * Get the input array.
+         *
+         * @return  the input array
+         */
         @Override
         public double[] getInputs() {
             double[] result = new double[pixels];
@@ -74,6 +102,11 @@ public class InputDataSource implements TrainingDataSource {
             return result;
         }
 
+        /**
+         * Create the expected output array on the fly using the output integer value.
+         *
+         * @return  the expected output array
+         */
         @Override
         public double[] getOutputs() {
             double[] result = new double[10];
@@ -81,6 +114,11 @@ public class InputDataSource implements TrainingDataSource {
             return result;
         }
 
+        /**
+         * Get the expected output as an integer (the digit value).
+         *
+         * @return  the expected integer output
+         */
         @Override
         public int getHighestOutputIndex() {
             return labelData.getLabelValue(image);

@@ -29,7 +29,9 @@ package net.pwall.neural;
  * Training data for Stochastic Gradient Descent.  Implementations of this interface must supply
  * two methods: {@link #getInputs()} to get the inputs in the form of an array of {@code double}
  * in the range 0.0 to 1.0, and {@link #getOutputs()} to get the corresponding set of expected
- * outputs,
+ * outputs.  Where the index of the highest output is known (for example, when the output array
+ * has a single value set to 1.0) an implementation of {@link #getHighestOutputIndex()} should
+ * be provided as an optimisation.
  *
  * @author Peter Wall
  */
