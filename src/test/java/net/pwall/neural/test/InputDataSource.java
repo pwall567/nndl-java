@@ -81,6 +81,11 @@ public class InputDataSource implements TrainingDataSource {
             return result;
         }
 
+        @Override
+        public int getHighestOutputIndex() {
+            return labelData.getLabelValue(image);
+        }
+
     }
 
 }
