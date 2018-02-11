@@ -58,6 +58,7 @@ public class Network {
      * Construct a network with the supplied layer sizes.
      *
      * @param   layerSizes      the layer sizes
+     * @throws  IllegalArgumentException if the number of layers less than 2
      */
     public Network(int ... layerSizes) {
         numLayers = layerSizes.length;
@@ -191,6 +192,7 @@ public class Network {
      *                          note on {@link #init(Random)}
      * @param   testData        a second {@link TrainingDataSource} containing test data to
      *                          evaluate progress (may be {@code null})
+     * @throws  IllegalArgumentException if the number of epochs not in allowed range
      */
     public void stochasticGradientDescent(TrainingDataSource tds, int epochs, int miniBatchSize,
             double eta, Random r, TrainingDataSource testData) {
@@ -306,8 +308,7 @@ public class Network {
     public double[] costDerivative(double[] outputActivations, double[] y) {
         int n = outputActivations.length;
         if (n != y.length)
-            throw new IllegalArgumentException("Arrays must be same length (" + n + " != " +
-                    y.length + ')');
+            throw arraySameLengthException(n, y.length);
         double[] result = new double[n];
         for (int i = 0; i < n; i++)
             result[i] = outputActivations[i] - y[i];
@@ -386,6 +387,7 @@ public class Network {
      * @param   a       the first array
      * @param   b       the second array
      * @return          the matrix product
+     * @throws  IllegalArgumentException if the arrays are of incompatible dimensions
      */
     public static double[][] dot(double[][] a, double[][] b) {
         int n = a[0].length;
@@ -416,12 +418,12 @@ public class Network {
      * @param   a       a 2-dimension array
      * @param   b       a 1-dimension array
      * @return          a 1-dimension array
+     * @throws  IllegalArgumentException if the arrays are of incompatible dimensions
      */
     public static double[] dot(double[][] a, double[] b) {
         int n = a[0].length;
         if (n != b.length)
-            throw new IllegalArgumentException("Arrays must be compatible (" + n + " != " +
-                    b.length + ')');
+            throw arraySameLengthException(n, b.length);
         double[] result = new double[a.length];
         for (int i = 0; i < a.length; i++) {
             double sum = 0.0;
@@ -486,8 +488,7 @@ public class Network {
     public static void addInPlace(double[] a, double[] b) {
         int n = a.length;
         if (n != b.length)
-            throw new IllegalArgumentException("Arrays must be same length (" + n + " != " +
-                    b.length + ')');
+            throw arraySameLengthException(n, b.length);
         for (int i = 0; i < n; i++)
             a[i] += b[i];
     }
@@ -503,8 +504,7 @@ public class Network {
     public static void addInPlace2(double[][] a, double[][] b) {
         int n = a.length;
         if (n != b.length)
-            throw new IllegalArgumentException("Arrays must be same length (" + n + " != " +
-                    b.length + ')');
+            throw arraySameLengthException(n, b.length);
         for (int i = 0; i < n; i++)
             addInPlace(a[i], b[i]);
     }
@@ -520,10 +520,14 @@ public class Network {
     public static void multiplyInPlace(double[] a, double[] b) {
         int n = a.length;
         if (n != b.length)
-            throw new IllegalArgumentException("Arrays must be same length (" + n + " != " +
-                    b.length + ')');
+            throw arraySameLengthException(n, b.length);
         for (int i = 0; i < n; i++)
             a[i] *= b[i];
+    }
+
+    private static IllegalArgumentException arraySameLengthException(int a, int b) {
+        return new IllegalArgumentException("Arrays must be same length (" + a + " != " + b +
+                ')');
     }
 
     /**
