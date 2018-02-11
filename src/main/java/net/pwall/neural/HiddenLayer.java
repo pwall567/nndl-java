@@ -79,6 +79,10 @@ public class HiddenLayer implements Layer {
      * Perform a single iteration of the layer.  In theory this operation could be parallelised,
      * but in practice the performance cost of setting up the parallel stream would greatly
      * outweigh the possible benefits.
+     *
+     * <p>Implementation note: this method could use {@link Network#dot(double[][], double[])},
+     * but that method allocates a new {@code double[]} to hold the result, and memory
+     * allocations are very costly in terms of performance.</p>
      */
     public void iterate() {
         double[] inputs = input.getOutputs();
