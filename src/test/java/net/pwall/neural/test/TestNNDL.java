@@ -77,7 +77,8 @@ public class TestNNDL {
 
             // run stochastic gradient descent with parameters in the example
 
-            network.stochasticGradientDescent(trainingData, 30, 10, 3.0, r, testData);
+            network.train(trainingData).epochs(30).miniBatchSize(10).eta(3.0).random(r).
+                    testData(testData).go();
         }
         catch (Exception e) {
             e.printStackTrace();

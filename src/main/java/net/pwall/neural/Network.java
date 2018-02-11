@@ -549,4 +549,82 @@ public class Network {
         return sb.toString();
     }
 
+    /**
+     * Configure training (use {@link Trainer#go()} to start training operation).
+     *
+     * @return  a {@link Trainer} object
+     */
+    public Trainer train() {
+        return new Trainer();
+    }
+
+    /**
+     * Configure training with a specified {@link TrainingDataSource} (use {@link Trainer#go()}
+     * to start training operation).
+     *
+     * @param   trainingData    the training data
+     * @return  a {@link Trainer} object
+     */
+    public Trainer train(TrainingDataSource trainingData) {
+        return train().trainingData(trainingData);
+    }
+
+    /**
+     * Inner class to provide "fluent" interface for network training operations.
+     */
+    public class Trainer {
+
+        private TrainingDataSource trainingData;
+        private TrainingDataSource testData;
+        private int epochs;
+        private int miniBatchSize;
+        private double eta;
+        private Random random;
+
+        public Trainer() {
+            trainingData = null;
+            testData = null;
+            epochs = 30;
+            miniBatchSize = 10;
+            eta = 3.0;
+            random = null;
+        }
+
+        public Trainer trainingData(TrainingDataSource trainingData) {
+            this.trainingData = trainingData;
+            return this;
+        }
+
+        public Trainer testData(TrainingDataSource testData) {
+            this.testData = testData;
+            return this;
+        }
+
+        public Trainer epochs(int epochs) {
+            this.epochs = epochs;
+            return this;
+        }
+
+        public Trainer miniBatchSize(int miniBatchSize) {
+            this.miniBatchSize = miniBatchSize;
+            return this;
+        }
+
+        public Trainer eta(double eta) {
+            this.eta = eta;
+            return this;
+        }
+
+        public Trainer random(Random random) {
+            this.random = random;
+            return this;
+        }
+
+        public void go() {
+            stochasticGradientDescent(trainingData, epochs, miniBatchSize, eta, random,
+                    testData);
+        }
+
+    }
+
 }
