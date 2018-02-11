@@ -130,24 +130,51 @@ public class Network {
     }
 
     /**
-     * Initialise the network using the supplied {@link Random}.  The {@code Random} is an
-     * argument to allow the user to supply a {@code Random} with a known seed for repeatable
+     * Initialise the network using the supplied {@link Random}.  The {@code Random} is supplied
+     * as an argument to allow the user to use a {@code Random} with a known seed for repeatable
      * results.
      *
-     * @param   r       the {@link Random}
+     * @param   r   the {@link Random}
      */
     public void init(Random r) {
         for (int i = 1; i < numLayers - 1; i++)
             hiddenLayers[i].init(r);
     }
 
-    public double[] feedForward(double[] inputs) {
+    /**
+     * Initialise the network.
+     */
+    public void init() {
+        init(new Random());
+    }
+
+    /**
+     * Process an array of inputs to produce an array of outputs.  This is the principal
+     * function of a neural network, but for most purposes the full array of outputs is not
+     * required, just the index of the highest output.  For this usage, see
+     * {@link #getResultInt(double[])}.
+     *
+     * @param   inputs  the array of inputs (no length checking is performed)
+     * @return
+     */
+    public double[] getResultArray(double[] inputs) {
         setInputs(inputs);
         int numHiddens = hiddenLayers.length;
         // important - this can not be parallelised
         for (int i = 0; i < numHiddens; i++)
             hiddenLayers[i].iterate();
         return getOutputs();
+    }
+
+    /**
+     * Process an array of inputs to get a single integer output - the index of the highest
+     * value in the output array.
+     *
+     * @param   inputs  the array of inputs (no length checking is performed)
+     * @return  the index of the highest output
+     */
+    public int getResultInt(double[] inputs) {
+        return indexOfHighest(getResultArray(inputs));
     }
 
     /**
@@ -300,7 +327,7 @@ public class Network {
         int sum = 0;
         for (int i = 0, n = testData.getSize(); i < n; i++) {
             TrainingData td = testData.getItem(i);
-            if (indexOfHighest(feedForward(td.getInputs())) == td.getHighestOutputIndex())
+            if (getResultInt(td.getInputs()) == td.getHighestOutputIndex())
                 sum++;
         }
         return sum;
