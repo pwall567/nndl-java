@@ -201,6 +201,8 @@ public class Network {
                     tds.getSize() + "; " + epochs + " epochs; mini-batch size " +
                     miniBatchSize + "; eta " + eta);
         }
+        if (r == null)
+            r = new Random();
         TrainingDataRandom tdr = new TrainingDataRandom(Objects.requireNonNull(tds));
         if (epochs < 1 || epochs > 200)
             throw new IllegalArgumentException("number of epochs must be in range 1..200");
