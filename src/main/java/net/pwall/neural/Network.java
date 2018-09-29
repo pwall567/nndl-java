@@ -98,8 +98,8 @@ public class Network {
      * @param   index   the index of the value
      * @param   value   the new value
      */
-    public void setInput(int i, double d) {
-        inputLayer.setValue(i, d);
+    public void setInput(int index, double value) {
+        inputLayer.setValue(index, value);
     }
 
     /**
@@ -107,8 +107,8 @@ public class Network {
      *
      * @param   values   the new values
      */
-    public void setInputs(double[] dd) {
-        inputLayer.setValues(dd);
+    public void setInputs(double[] values) {
+        inputLayer.setValues(values);
     }
 
     /**
