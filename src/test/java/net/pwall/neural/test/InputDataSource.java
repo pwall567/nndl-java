@@ -50,7 +50,7 @@ public class InputDataSource implements TrainingDataSource {
     public InputDataSource(MNISTImageData imageData, MNISTLabelData labelData) {
         this.imageData = imageData;
         this.labelData = labelData;
-        pixels = imageData.getNumRows() * imageData.getNumRows();
+        pixels = imageData.getNumRows() * imageData.getNumCols();
     }
 
     /**
