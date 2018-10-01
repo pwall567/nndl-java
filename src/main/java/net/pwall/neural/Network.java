@@ -138,7 +138,7 @@ public class Network {
      * @param   r   the {@link Random}
      */
     public void init(Random r) {
-        for (int i = 1; i < numLayers - 1; i++)
+        for (int i = 0; i < numLayers - 1; i++)
             hiddenLayers[i].init(r);
     }
 
