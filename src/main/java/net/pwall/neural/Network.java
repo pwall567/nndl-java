@@ -206,6 +206,7 @@ public class Network {
         TrainingDataRandom tdr = new TrainingDataRandom(Objects.requireNonNull(tds));
         if (epochs < 1 || epochs > 200)
             throw new IllegalArgumentException("number of epochs must be in range 1..200");
+        long startTime = System.currentTimeMillis();
         for (int epoch = 0; epoch < epochs; epoch++) {
             tdr.randomise(r);
             for (int k = 0; k < tdr.getSize(); k += miniBatchSize) {
@@ -214,10 +215,15 @@ public class Network {
                 updateMiniBatch(miniBatch, eta);
             }
             if (log.isInfoEnabled()) {
-                log.info("Completed epoch " + (epoch + 1));
+                long now = System.currentTimeMillis();
+                log.info("Completed epoch " + (epoch + 1) + " (" + (now - startTime) + "ms)");
+                startTime = now;
                 if (testData != null) {
                     int n = evaluate(testData);
-                    log.info("Correctly identified " + n + " of " + testData.getSize());
+                    now = System.currentTimeMillis();
+                    log.info("Correctly identified " + n + " of " + testData.getSize() +
+                            " (" + (now - startTime) + "ms)");
+                    startTime = now;
                 }
             }
         }
