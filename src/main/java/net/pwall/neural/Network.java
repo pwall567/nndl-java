@@ -156,7 +156,7 @@ public class Network {
      * {@link #getResultInt(double[])}.
      *
      * @param   inputs  the array of inputs (no length checking is performed)
-     * @return
+     * @return  the output array
      */
     public double[] getResultArray(double[] inputs) {
         setInputs(inputs);
